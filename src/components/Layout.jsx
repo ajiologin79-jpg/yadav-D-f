@@ -72,12 +72,12 @@ export default function Layout({ children, setPage }) {
         }}
       >
         <h3 style={{ padding: "20px", borderBottom: "1px solid #334155" }}>
-              Payroll
+          ___Payroll
         </h3>
 
         {menuItem("Dashboard", "dashboard")}
         {menuItem("Employees", "employee")}
-        {menuItem("Attendance", "attendance")}
+        {menuItem("Download PaySlip", "attendance")}
         {menuItem("Advance", "advance")}
       </div>
 
