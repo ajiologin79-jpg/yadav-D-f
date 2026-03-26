@@ -11,68 +11,87 @@ export default function Dashboard() {
   useEffect(() => {
     axios.get(`${BASE_URL}/employees`)
       .then(res => setEmployees(res.data))
-      .catch(err => console.log(err));
+      .catch(err => console.error(err));
   }, []);
 
   const mark = async (status) => {
 
-    console.log("CLICK:", empId, date, status);
-
     if (!empId) {
-      alert("Please select employee");
+      alert("Select employee");
       return;
     }
 
     if (!date) {
-      alert("Please select date");
+      alert("Select date");
       return;
     }
 
     try {
       await axios.post(`${BASE_URL}/attendance`, {
         employeeId: Number(empId),
-        date: date,
-        status: status
+        date,
+        status
       });
 
-      alert(`Attendance marked: ${status} ✅`);
+      alert(`Marked ${status} ✅`);
 
     } catch (err) {
       console.error(err);
-      alert("Error saving attendance ❌");
+      alert("Error ❌");
     }
   };
 
   return (
-    <div className="grid grid-2">
+    <div className="card">
 
-      {/* Attendance Card */}
-      <div className="card">
-        <h2>Mark Attendance</h2>
+      <h2>Mark Attendance</h2>
 
-        <select onChange={e => setEmpId(e.target.value)}>
-          <option value="">Select Employee</option>
-          {employees.map(e => (
-            <option key={e.id} value={e.id}>{e.name}</option>
-          ))}
-        </select>
+      {/* 🔥 FORM GRID */}
+      <div className="date-grid">
 
-        <input type="date" onChange={e => setDate(e.target.value)} />
-
-        <div className="grid grid-2">
-          <button className="btn green" onClick={() => mark("FULL")}>Full Day</button>
-          <button className="btn yellow" onClick={() => mark("HALF")}>Half Day</button>
-          <button className="btn red" onClick={() => mark("ABSENT")}>Absent</button>
+        <div className="input-group">
+          <label>Select Employee</label>
+          <select onChange={e => setEmpId(e.target.value)}>
+            <option value="">Select Employee</option>
+            {employees.map(e => (
+              <option key={e.id} value={e.id}>{e.name}</option>
+            ))}
+          </select>
         </div>
+
+        <div className="input-group">
+          <label>Select Date</label>
+          <input
+            type="date"
+            onChange={e => setDate(e.target.value)}
+          />
+        </div>
+
       </div>
 
-      {/* Info Card */}
-      <div className="card">
-        <h2>System Info</h2>
-        <p>✔ Manage employees</p>
-        <p>✔ Track attendance</p>
-        <p>✔ Generate payslip</p>
-        <p>✔ Advance deduction supported</p>
+      {/* 🔥 BUTTON GRID */}
+      <div className="grid grid-2" style={{ marginTop: "15px" }}>
+
+        <button className="btn green" onClick={() => mark("FULL")}>
+          Full Day
+        </button>
+
+        <button className="btn yellow" onClick={() => mark("HALF")}>
+          Half Day
+        </button>
+
+        <button className="btn red" onClick={() => mark("ABSENT")}>
+          Absent
+        </button>
+
+      </div>
+
+      {/* 🔥 INFO SECTION (FILL EMPTY SPACE) */}
+      <div className="card" style={{ marginTop: "20px" }}>
+        <h3>Quick Info</h3>
+        <p>✔ Full Day = 100% salary</p>
+        <p>✔ Half Day = 50% salary</p>
+        <p>✔ Absent = 0 salary</p>
       </div>
 
     </div>

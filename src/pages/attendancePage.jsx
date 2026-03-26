@@ -23,9 +23,8 @@ export default function AttendancePage() {
       .catch(err => console.error(err));
   }, []);
 
-  // Load attendance + advance
+  // Load data
   const loadData = async (id) => {
-
     const emp = employees.find(e => e.id === Number(id));
     setEmployee(emp);
 
@@ -42,7 +41,7 @@ export default function AttendancePage() {
     }
   };
 
-  // 🔥 ADD THIS (MISSING FUNCTION)
+  // Calculate salary
   const calculate = () => {
 
     if (!employee) {
@@ -60,7 +59,6 @@ export default function AttendancePage() {
     let total = 0;
 
     const rows = filteredAttendance.map(d => {
-
       let amount = 0;
 
       if (d.status === "FULL") amount = employee.perDaySalary;
@@ -82,7 +80,7 @@ export default function AttendancePage() {
     };
   };
 
-  // PDF Download
+  // Download PDF
   const downloadPDF = () => {
 
     if (!empId || !start || !end) {
@@ -93,7 +91,6 @@ export default function AttendancePage() {
     const result = calculate();
     const doc = new jsPDF();
 
-    // Title
     doc.setFontSize(16);
     doc.text("Salary Slip", 14, 20);
 
@@ -101,7 +98,6 @@ export default function AttendancePage() {
     doc.text(`Employee: ${employee.name}`, 14, 30);
     doc.text(`Period: ${start} to ${end}`, 14, 36);
 
-    // Attendance Table
     autoTable(doc, {
       startY: 45,
       head: [["Date", "Status", "Amount"]],
@@ -110,7 +106,6 @@ export default function AttendancePage() {
 
     let y = doc.lastAutoTable.finalY;
 
-    // Advance Table
     if (result.advances.length > 0) {
 
       if (y + 20 > doc.internal.pageSize.height) {
@@ -129,7 +124,6 @@ export default function AttendancePage() {
       y = doc.lastAutoTable.finalY;
     }
 
-    // Final Summary
     if (y + 30 > doc.internal.pageSize.height) {
       doc.addPage();
       y = 20;
@@ -147,24 +141,47 @@ export default function AttendancePage() {
 
   return (
     <div className="card">
+
       <h2>Download Payslip</h2>
 
-      <select onChange={(e) => {
-        setEmpId(e.target.value);
-        loadData(e.target.value);
-      }}>
-        <option value="">Select Employee</option>
-        {employees.map(e => (
-          <option key={e.id} value={e.id}>{e.name}</option>
-        ))}
-      </select>
+      {/* 🔥 FORM GRID */}
+      <div className="date-grid">
 
-      <input type="date" onChange={e => setStart(e.target.value)} />
-      <input type="date" onChange={e => setEnd(e.target.value)} />
+        <div className="input-group">
+          <label>Select Employee</label>
+          <select onChange={(e) => {
+            setEmpId(e.target.value);
+            loadData(e.target.value);
+          }}>
+            <option value="">Select Employee</option>
+            {employees.map(e => (
+              <option key={e.id} value={e.id}>{e.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="input-group">
+          <label>Start Date</label>
+          <input
+            type="date"
+            onChange={e => setStart(e.target.value)}
+          />
+        </div>
+
+        <div className="input-group">
+          <label>End Date</label>
+          <input
+            type="date"
+            onChange={e => setEnd(e.target.value)}
+          />
+        </div>
+
+      </div>
 
       <button className="btn blue" onClick={downloadPDF}>
         Download Payslip
       </button>
+
     </div>
   );
 }
