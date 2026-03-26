@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Dashboard from "./Pages/temp/pages/dashboard";
-import EmployeePage from "./Pages/temp/pages/employeePage";
-import AttendancePage from "./Pages/temp/pages/attendancePage";
+import Dashboard from "./pages/dashboard";
+import EmployeePage from "./pages/employeePage";
+import AttendancePage from "./pages/attendancePage";
 import Layout from "./components/Layout";
-import AdvancePage from "./Pages/temp/pages/advancePage";
+import AdvancePage from "./pages/advancePage";
 
 
 function App() {

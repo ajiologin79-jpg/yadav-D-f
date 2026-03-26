@@ -1,17 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API } from '../api/api';
+import BASE_URL from "../api/api";   // ✅ correct import
 
+// Fetch Employees
 export const fetchEmployees = createAsyncThunk('emp/fetch', async () => {
-  const res = await axios.get(`${API}/employees`);
+  const res = await axios.get(`${BASE_URL}/employees`);   // ✅ FIXED
   return res.data;
 });
 
+// Calculate Salary
 export const calculateSalary = createAsyncThunk(
   'emp/salary',
   async ({ empId, startDate, endDate }) => {
     const res = await axios.get(
-      `${API}/salary?empId=${empId}&startDate=${startDate}&endDate=${endDate}`
+      `${BASE_URL}/salary?empId=${empId}&startDate=${startDate}&endDate=${endDate}`   // ✅ FIXED
     );
     return res.data;
   }
