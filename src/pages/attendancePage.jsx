@@ -25,7 +25,7 @@ export default function AttendancePage() {
 
   const loadData = async (id) => {
 
-    const emp = employees.find(e => e.id == id);
+    const emp = employees.find(e => e.id === Number(id));
     setEmployee(emp);
 
     try {
