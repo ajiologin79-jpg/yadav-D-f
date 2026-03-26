@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import BASE_URL from "../../../api";
+import BASE_URL from "../../../api/api";
 
 export default function AttendancePage() {
 
