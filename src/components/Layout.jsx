@@ -8,12 +8,12 @@ export default function Layout({ children, setPage }) {
     <div
       onClick={() => {
         setPage(pageName);
-        setOpen(false); // 🔥 close sidebar on mobile
+        setOpen(false);
       }}
       style={{
-        padding: "12px 20px",
+        padding: "14px 20px",
         cursor: "pointer",
-        borderBottom: "1px solid #334155"
+        borderBottom: "1px solid rgba(255,255,255,0.1)"
       }}
     >
       {label}
@@ -23,7 +23,7 @@ export default function Layout({ children, setPage }) {
   return (
     <div style={{ display: "flex" }}>
 
-      {/* 🔥 MOBILE MENU BUTTON */}
+      {/* MENU BUTTON */}
       <button
         onClick={() => setOpen(!open)}
         style={{
@@ -32,16 +32,16 @@ export default function Layout({ children, setPage }) {
           left: 10,
           zIndex: 1001,
           padding: "8px 12px",
-          background: "#1e293b",
+          background: "#0f172a",
           color: "white",
           border: "none",
-          borderRadius: "5px"
+          borderRadius: "6px"
         }}
       >
         ☰
       </button>
 
-      {/* 🔥 OVERLAY (for mobile) */}
+      {/* OVERLAY */}
       {open && (
         <div
           onClick={() => setOpen(false)}
@@ -57,31 +57,36 @@ export default function Layout({ children, setPage }) {
         />
       )}
 
-      {/* 🔥 SIDEBAR */}
+      {/* SIDEBAR */}
       <div
         style={{
-          width: "220px",
-          background: "#1e293b",
-          color: "white",
+          width: "230px",
           height: "100vh",
           position: "fixed",
-          left: open ? "0" : "-220px",
           top: 0,
+          left: open ? "0" : "-230px",
           transition: "0.3s",
-          zIndex: 1000
+          zIndex: 1000,
+          color: "white",
+
+          // 🔥 HERE IS YOUR GRADIENT
+          background: "linear-gradient(180deg, #1e293b, #0f172a)"
         }}
       >
-        <h3 style={{ padding: "20px", borderBottom: "1px solid #334155" }}>
-          ___Payroll
-        </h3>
+        <h2 style={{
+          padding: "20px",
+          borderBottom: "1px solid rgba(255,255,255,0.1)"
+        }}>
+          Payroll
+        </h2>
 
         {menuItem("Dashboard", "dashboard")}
         {menuItem("Employees", "employee")}
-        {menuItem("Download PaySlip", "attendance")}
+        {menuItem("Download Payslip", "attendance")}
         {menuItem("Advance", "advance")}
       </div>
 
-      {/* 🔥 MAIN CONTENT */}
+      {/* MAIN CONTENT */}
       <div
         style={{
           width: "100%",

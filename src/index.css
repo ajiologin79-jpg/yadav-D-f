@@ -1,129 +1,73 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
-
+```css
 body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
   background: #f1f5f9;
 }
 
-/* Layout */
-.app {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* Sidebar */
-.sidebar {
-  width: 240px;
-  background: #0f172a;
-  color: white;
-  padding: 20px;
-}
-
-.sidebar h2 {
-  margin-bottom: 30px;
-}
-
-.sidebar button {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  background: transparent;
-  border: none;
-  color: white;
-  text-align: left;
-  cursor: pointer;
-  border-radius: 6px;
-}
-
-.sidebar button:hover {
-  background: #1e293b;
-}
-
-/* Main */
-.main {
-  flex: 1;
-  padding: 20px;
-}
-
-/* Topbar */
-.topbar {
-  background: white;
-  padding: 15px 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-/* Card */
+/* Card UI */
 .card {
   background: white;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  width: 100%;
 }
 
 /* Inputs */
 input, select {
   width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 6px;
+  margin-top: 10px;
+  border-radius: 8px;
   border: 1px solid #cbd5e1;
 }
 
 /* Buttons */
-.btn {
-  padding: 10px 15px;
+button {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
   border: none;
-  border-radius: 6px;
-  color: white;
   cursor: pointer;
 }
 
-.blue { background: #2563eb; }
-.green { background: #16a34a; }
-.yellow { background: #f59e0b; }
-.red { background: #dc2626; }
+.btn {
+  width: 100%;
+  color: white;
+  font-weight: 500;
+}
 
-.row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.btn.blue { background: #2563eb; }
+.btn.green { background: #16a34a; }
+.btn.yellow { background: #ca8a04; }
+.btn.red { background: #dc2626; }
+
+/* Grid layout */
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 /* Table */
 table {
   width: 100%;
-  border-collapse: collapse;
   margin-top: 15px;
+  border-collapse: collapse;
 }
 
-th {
-  background: #0f172a;
-  color: white;
-  padding: 10px;
-}
-
-td {
+th, td {
   padding: 10px;
   border-bottom: 1px solid #e2e8f0;
+  text-align: left;
 }
 
-tr:hover {
-  background: #f8fafc;
+/* Heading */
+h2 {
+  margin-bottom: 10px;
 }
-
-/* Responsive */
-@media(max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
-
-  .main {
-    padding: 10px;
-  }
-}
+```

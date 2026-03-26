@@ -85,64 +85,48 @@ export default function EmployeePage() {
   };
 
   return (
-    <div className="card">
+    <div className="grid grid-2">
 
-      <h2>Employee Management</h2>
+      {/* Form */}
+      <div className="card">
+        <h2>Add Employee</h2>
 
-      {/* FORM */}
-      <input
-        placeholder="Employee Name"
-        value={name}
-        onChange={e => setName(e.target.value)}
-      />
+        <input placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
+        <input placeholder="Per Day Salary" value={salary} onChange={e => setSalary(e.target.value)} />
 
-      <input
-        placeholder="Per Day Salary (₹)"
-        value={salary}
-        onChange={e => setSalary(e.target.value)}
-      />
+        <button className="btn blue" onClick={save}>
+          {editId ? "Update" : "Add"}
+        </button>
+      </div>
 
-      <button className="btn blue" onClick={save}>
-        {editId ? "Update Employee" : "Add Employee"}
-      </button>
+      {/* Table */}
+      <div className="card">
+        <h2>Employee List</h2>
 
-      {/* TABLE */}
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Per Day Salary</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {employees.map(emp => (
-            <tr key={emp.id}>
-              <td>{emp.name}</td>
-              <td>Rs. {emp.perDaySalary}</td>
-              <td>
-
-                <button
-                  className="btn yellow"
-                  onClick={() => edit(emp)}
-                >
-                  Edit
-                </button>
-
-                <button
-                  className="btn red"
-                  onClick={() => remove(emp.id)}
-                  style={{ marginLeft: "5px" }}
-                >
-                  Delete
-                </button>
-
-              </td>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Salary</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {employees.map(emp => (
+              <tr key={emp.id}>
+                <td>{emp.name}</td>
+                <td>Rs. {emp.perDaySalary}</td>
+                <td>
+                  <button className="btn yellow" onClick={() => edit(emp)}>Edit</button>
+                  <button className="btn red" onClick={() => remove(emp.id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+      </div>
 
     </div>
   );
