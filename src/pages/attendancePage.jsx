@@ -23,6 +23,7 @@ export default function AttendancePage() {
       .catch(err => console.error(err));
   }, []);
 
+  // Load attendance + advance
   const loadData = async (id) => {
 
     const emp = employees.find(e => e.id === Number(id));
@@ -41,6 +42,47 @@ export default function AttendancePage() {
     }
   };
 
+  // 🔥 ADD THIS (MISSING FUNCTION)
+  const calculate = () => {
+
+    if (!employee) {
+      return { rows: [], advances: [], total: 0, advTotal: 0, final: 0 };
+    }
+
+    const filteredAttendance = attendance.filter(
+      d => d.date >= start && d.date <= end
+    );
+
+    const filteredAdvance = advances.filter(
+      a => a.date >= start && a.date <= end
+    );
+
+    let total = 0;
+
+    const rows = filteredAttendance.map(d => {
+
+      let amount = 0;
+
+      if (d.status === "FULL") amount = employee.perDaySalary;
+      if (d.status === "HALF") amount = employee.perDaySalary / 2;
+
+      total += amount;
+
+      return { ...d, amount };
+    });
+
+    const advTotal = filteredAdvance.reduce((s, a) => s + a.amount, 0);
+
+    return {
+      rows,
+      advances: filteredAdvance,
+      total,
+      advTotal,
+      final: total - advTotal
+    };
+  };
+
+  // PDF Download
   const downloadPDF = () => {
 
     if (!empId || !start || !end) {
@@ -59,20 +101,18 @@ export default function AttendancePage() {
     doc.text(`Employee: ${employee.name}`, 14, 30);
     doc.text(`Period: ${start} to ${end}`, 14, 36);
 
-    // 🔥 ATTENDANCE TABLE (handles multi-page automatically)
+    // Attendance Table
     autoTable(doc, {
       startY: 45,
       head: [["Date", "Status", "Amount"]],
       body: result.rows.map(r => [r.date, r.status, r.amount])
     });
 
-    // 🔥 ALWAYS GET FINAL POSITION FROM LAST PAGE
     let y = doc.lastAutoTable.finalY;
 
-    // 🔥 ADVANCE TABLE
+    // Advance Table
     if (result.advances.length > 0) {
 
-      // If not enough space → go to new page
       if (y + 20 > doc.internal.pageSize.height) {
         doc.addPage();
         y = 20;
@@ -86,13 +126,10 @@ export default function AttendancePage() {
         body: result.advances.map(a => [a.date, a.amount])
       });
 
-      // 🔥 again get correct final Y
       y = doc.lastAutoTable.finalY;
     }
 
-    // 🔥 FINAL SUMMARY (CRITICAL FIX)
-
-    // Always ensure space
+    // Final Summary
     if (y + 30 > doc.internal.pageSize.height) {
       doc.addPage();
       y = 20;
@@ -107,7 +144,6 @@ export default function AttendancePage() {
 
     doc.save("SalarySlip.pdf");
   };
-
 
   return (
     <div className="card">
