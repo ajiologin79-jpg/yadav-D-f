@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { logoutUser } from "../utils/auth";
+import { getUser, logoutUser } from "../utils/auth";
 
 export default function Layout({ children, setPage }) {
 
   const [open, setOpen] = useState(false);
+  const user = getUser();
 
+  // 🔥 MENU ITEM COMPONENT
   const menuItem = (label, pageName) => (
     <div
       onClick={() => {
@@ -14,8 +16,15 @@ export default function Layout({ children, setPage }) {
       style={{
         padding: "14px 20px",
         cursor: "pointer",
-        borderBottom: "1px solid rgba(255,255,255,0.1)"
+        borderBottom: "1px solid rgba(255,255,255,0.1)",
+        transition: "0.2s"
       }}
+      onMouseEnter={e =>
+        (e.currentTarget.style.background = "rgba(255,255,255,0.1)")
+      }
+      onMouseLeave={e =>
+        (e.currentTarget.style.background = "transparent")
+      }
     >
       {label}
     </div>
@@ -24,7 +33,7 @@ export default function Layout({ children, setPage }) {
   return (
     <div style={{ display: "flex" }}>
 
-      {/* MENU BUTTON */}
+      {/* 🔥 MENU BUTTON */}
       <button
         onClick={() => setOpen(!open)}
         style={{
@@ -42,7 +51,7 @@ export default function Layout({ children, setPage }) {
         ☰
       </button>
 
-      {/* OVERLAY */}
+      {/* 🔥 OVERLAY */}
       {open && (
         <div
           onClick={() => setOpen(false)}
@@ -58,7 +67,7 @@ export default function Layout({ children, setPage }) {
         />
       )}
 
-      {/* SIDEBAR */}
+      {/* 🔥 SIDEBAR */}
       <div
         style={{
           width: "230px",
@@ -69,25 +78,58 @@ export default function Layout({ children, setPage }) {
           transition: "0.3s",
           zIndex: 1000,
           color: "white",
+          display: "flex",
+          flexDirection: "column",
 
-          // 🔥 HERE IS YOUR GRADIENT
           background: "linear-gradient(180deg, #1e293b, #0f172a)"
         }}
       >
-        <h2 style={{
-          padding: "20px",
-          borderBottom: "1px solid rgba(255,255,255,0.1)"
-        }}>
-          Payroll
-        </h2>
 
-        {menuItem("Dashboard", "dashboard")}
-        {menuItem("Employees", "employee")}
-        {menuItem("Download Payslip", "attendance")}
-        {menuItem("Advance", "advance")}
+        {/* 🔥 USER NAME */}
+        <div
+          style={{
+            padding: "20px",
+            borderBottom: "1px solid rgba(255,255,255,0.1)",
+            fontWeight: "bold"
+          }}
+        >
+          👤 {user?.userName || "User"}
+        </div>
+
+        {/* 🔥 MENU ITEMS */}
+        <div style={{ flex: 1 }}>
+          {menuItem("Dashboard", "dashboard")}
+          {menuItem("Employees", "employee")}
+          {menuItem("Download Payslip", "attendance")}
+          {menuItem("Advance", "advance")}
+        </div>
+
+        {/* 🔥 LOGOUT */}
+        <div
+          onClick={() => {
+            logoutUser();
+            window.location.reload();
+          }}
+          style={{
+            padding: "14px 20px",
+            cursor: "pointer",
+            borderTop: "1px solid rgba(255,255,255,0.1)",
+            color: "#f87171",
+            transition: "0.2s"
+          }}
+          onMouseEnter={e =>
+            (e.currentTarget.style.background = "rgba(255,255,255,0.1)")
+          }
+          onMouseLeave={e =>
+            (e.currentTarget.style.background = "transparent")
+          }
+        >
+          🚪 Logout
+        </div>
+
       </div>
 
-      {/* MAIN CONTENT */}
+      {/* 🔥 MAIN CONTENT */}
       <div
         style={{
           width: "100%",
@@ -97,15 +139,6 @@ export default function Layout({ children, setPage }) {
       >
         {children}
       </div>
-
-      <button
-        onClick={() => {
-          logoutUser();
-          window.location.reload();
-        }}
-      >
-        Logout
-      </button>
 
     </div>
   );
