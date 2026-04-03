@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard";
 import EmployeePage from "./pages/EmployeePage";
 import AttendancePage from "./pages/AttendancePage";
 import AdvancePage from "./pages/AdvancePage";
