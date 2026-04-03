@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+}
+
+.auth-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.link {
+  margin-top: 10px;
+  color: #2563eb;
+  cursor: pointer;
+}

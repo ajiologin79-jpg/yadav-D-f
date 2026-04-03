@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { logoutUser } from "../utils/auth";
 
 export default function Layout({ children, setPage }) {
 
@@ -96,6 +97,15 @@ export default function Layout({ children, setPage }) {
       >
         {children}
       </div>
+
+      <button
+        onClick={() => {
+          logoutUser();
+          window.location.reload();
+        }}
+      >
+        Logout
+      </button>
 
     </div>
   );
